@@ -140,12 +140,6 @@ while run:
     word_game(screen, camufleido, font, width)
     lose, chance, letters, letter, speed = classesdefs.Restart(camufleido, lose, chance, letter, letters, click, mouse_position_x, mouse_position_y, speed)
 
-
-    print(f'velocity: {speed}')
-    print(f'tentativas : {letters}')
-    print(f'Chances: {chance}')
-
-
     # SE ERROS == X , APARECER BOTAO RESTART NA TELA
     if chance == 2:
         button_x, button_y = draw_restart(screen)
