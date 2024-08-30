@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ProgressBar?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rpgito.gamePage">
+    <children>
+        <ProgressBar fx:id="healthBar" prefHeight="120.0" prefWidth="16.0" layoutX="784" layoutY="480" />
+        <!-- Canvas para o jogo -->
+        <Canvas fx:id="gameCanvas" width="800" height="600" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0"/>
+
+        <!-- Botão para voltar à tela inicial -->
+        <Button fx:id="outButton" text="VOLTAR" onAction="#returnOpening"
+                AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" focusTraversable="false"/>
+    </children>
+</AnchorPane>
