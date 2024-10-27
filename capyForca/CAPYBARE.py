@@ -1,24 +1,24 @@
 import os
 from random import randint
 from sys import exit
-import pygame
+import pygame as pg
 from pygame.locals import *
-import classesdefs
+import back.classesDefs as classesDefs
 
-pygame.init()
+pg.init()
 
 #TELA
 height = 600
 width= 800
 
-screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-pygame.display.set_caption("CAPYBARE")
+screen = pg.display.set_mode((width, height), pg.RESIZABLE)
+pg.display.set_caption("CAPYBARE")
 
 #CHAMAR PASTAS
-sprite_sheet_image = pygame.image.load('GAMES()/CAPYBS/imagens/capy.png').convert_alpha()
+sprite_sheet_image = pg.image.load('src/imgs/capy.png').convert_alpha()
 
 #FONTE
-font = pygame.font.SysFont('courier new', 40)
+font = pg.font.SysFont('courier new', 40)
 
 #COLORS
 soft_blue = (160,191,240)
@@ -32,7 +32,7 @@ def draw_text(text, fonte, branco, x, y):
 
 def draw_restart(screen):
     button_x, button_y, button_width, button_height = 500, 100, 200, 65
-    pygame.draw.rect(screen, purple, (button_x, button_y, button_width, button_height))
+    pg.draw.rect(screen, purple, (button_x, button_y, button_width, button_height))
     restart = font.render('RESTART', True, branco)
     screen.blit(restart, (button_x + 15, button_y + 10))
     return button_x, button_y
@@ -44,7 +44,7 @@ def word_game(screen, camufleido, font, width):
     x = width - word_width - 32
     screen.blit(word_surface, (x, 200))
 
-sprite_sheet = classesdefs.Capy(sprite_sheet_image)
+sprite_sheet = classesDefs.Capy(sprite_sheet_image)
 
 frames = [sprite_sheet.get_image(i, 32, 32, 5, purple) for i in range (0,4)]
 stop_frame = sprite_sheet.get_image(6.1, 32, 32, 5, purple)
@@ -54,7 +54,7 @@ animation_file = []
 animation_steps = [2, 3, 2, 1]
 current_frame = 0
 frame_delay = 150 #milisseconds
-last_update = pygame.time.get_ticks()
+last_update = pg.time.get_ticks()
 x_pos = 0
 y_pos = height - frames[0].get_height()
 speed = 1.5
@@ -74,41 +74,41 @@ tries = [' ','-']
 # general variable
 pause = False
 run = True
-time = pygame.time.Clock()
+time = pg.time.Clock()
 
 while run:
     # EVENTOS DO JOGO
-    for event in pygame.event.get():
+    for event in pg.event.get():
         if event.type == QUIT:
-            pygame.quit()
+            pg.quit()
             exit()
         
         # CLIQUE EM TECLAS
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pg.KEYDOWN:
             # PAUSE
-            if event.key == pygame.K_SPACE:
+            if event.key == pg.K_SPACE:
                 pause = not pause
             # LEITURA DE LETRAS
             elif event.key != K_SPACE:
-                letter = pygame.key.name(event.key)
+                letter = pg.key.name(event.key)
                 print(letter)
 
         # REDIMENSIONA PALAVRA NA TELA SEMPRE QUE REDIMENSIONA A TELA
         elif event.type == VIDEORESIZE:
             width, height = event.size
-            screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+            screen = pg.display.set_mode((width, height), pg.RESIZABLE)
 
         # CONSIDERA CLICK DO MOUSE PARA CHAMAR RESTART
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pg.MOUSEBUTTONDOWN:
             if 500 <= mouse_position_x <= 700 and 100 <= mouse_position_y <= 165:
-                lose, chance, letters, letter, speed = classesdefs.Restart(camufleido, lose, chance, letter, letters, click, mouse_position_x, mouse_position_y, speed)
+                lose, chance, letters, letter, speed = classesDefs.Restart(camufleido, lose, chance, letter, letters, click, mouse_position_x, mouse_position_y, speed)
     
     #background
     screen.fill(soft_blue)
     time.tick(50)
 
     # Get current time
-    now = pygame.time.get_ticks()
+    now = pg.time.get_ticks()
 
     # UPDATE FRAME DE ACORDO COM O TEMPO == CAPY ANDANDO
     if not pause and now - last_update > frame_delay:
@@ -126,19 +126,19 @@ while run:
         screen.blit(frames[current_frame], (x_pos, y_pos))
 
     # Declarando variavel da posição do mouse
-    mouse = pygame.mouse.get_pos()
+    mouse = pg.mouse.get_pos()
     mouse_position_x = mouse[0]
     mouse_position_y = mouse[1]
 
     # Declarando variavel do click do mouse
-    click = pygame.mouse.get_pressed()
+    click = pg.mouse.get_pressed()
 
     # DEFINIÇÕES JOGO
-    choice_word, lose = classesdefs.random_word(words, choice_word, lose)
-    camufleido = classesdefs.camuflas(choice_word, camufleido, letters)
-    letters, chance = classesdefs.tentandus(letters, choice_word, letter, chance, speed)
+    choice_word, lose = classesDefs.random_word(words, choice_word, lose)
+    camufleido = classesDefs.camuflas(choice_word, camufleido, letters)
+    letters, chance = classesDefs.tentandus(letters, choice_word, letter, chance, speed)
     word_game(screen, camufleido, font, width)
-    lose, chance, letters, letter, speed = classesdefs.Restart(camufleido, lose, chance, letter, letters, click, mouse_position_x, mouse_position_y, speed)
+    lose, chance, letters, letter, speed = classesDefs.Restart(camufleido, lose, chance, letter, letters, click, mouse_position_x, mouse_position_y, speed)
 
     # SE ERROS == X , APARECER BOTAO RESTART NA TELA
     if chance == 2:
@@ -147,4 +147,4 @@ while run:
     # Click Last Status
     last_click = click[0]
 
-    pygame.display.update()
+    pg.display.update()
