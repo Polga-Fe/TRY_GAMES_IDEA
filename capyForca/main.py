@@ -35,7 +35,7 @@ def main():
     }
 
     while True:
-        print(f'Executando cena: {cena_atual}')  # Depuração
+        print(f'Executando cena: {cena_atual}')
 
         if cena_atual == 'sair':
             pg.quit()

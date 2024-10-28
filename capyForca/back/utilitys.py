@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 import pages.options as options
+import back.classesDefs as classes
 import json
 import os
 import sys
@@ -13,7 +14,6 @@ width = 800
 
 screen = pg.display.set_mode((width, height), pg.RESIZABLE)
 pg.display.set_caption("CAPYBARE")
-sprite_sheet_image = pg.image.load('src/imgs/capy.png').convert_alpha()
 
 #FONTE
 font = pg.font.SysFont('courier new', 40)
@@ -21,12 +21,17 @@ font = pg.font.SysFont('courier new', 40)
 #COLORS
 soft_blue = (160,191,240)
 soft_green = (152, 251, 203)
-
 black = (0, 0, 0)
 purple = (135, 30, 81)
 white = (255, 255, 255)
 
-# DESENHOS 
+# SPRITES
+sprite_sheet_chap = pg.image.load('src/imgs/capy.png').convert_alpha()
+
+sprite_sheet_capy = classes.SpriteSheet(sprite_sheet_chap)
+
+frames = [sprite_sheet_capy.get_image(i, 32, 32, 5, purple) for i in range (0,4)]
+stop_frame = sprite_sheet_capy.get_image(6.1, 32, 32, 5, purple)
 
 # TEXTOS
 def draw_text(screen, text, fonte, cor, x, y):
