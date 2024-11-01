@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 import pages.options as options
-import back.classesDefs as classes
+import back.defClass as classes
 import json
 import os
 import sys
@@ -23,6 +23,7 @@ soft_blue = (160,191,240)
 soft_green = (152, 251, 203)
 black = (0, 0, 0)
 purple = (135, 30, 81)
+red = (255, 0, 0)
 white = (255, 255, 255)
 
 # SPRITES
@@ -136,4 +137,4 @@ def carregar_configuracoes(arquivo='config.json'):
             return configuracoes
     except FileNotFoundError:
         # Se o arquivo não existir, retornar valores padrão
-        return {"volume": 1.0, "luminosidade": 100}
+        return {"volume": 1.0, "keyColor": white}

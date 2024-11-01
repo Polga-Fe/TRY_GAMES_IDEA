@@ -1,7 +1,7 @@
 import pygame as pg
 import random
-import back.classesDefs as classesDefs
-import back.utilitys as utils
+import back.defClass as defClass
+import back.defVisual as utils
 import time as time
 
 #animation variable
@@ -13,8 +13,11 @@ last_update = pg.time.get_ticks()
 x_pos = 0
 y_pos = utils.height - utils.frames[0].get_height()
 
+configuracoes = utils.carregar_configuracoes()
+keyColor = configuracoes["keyColor"]
+
 def word_game(screen, camufleido, font, width):
-    word_surface = utils.font.render(camufleido, True, utils.white)
+    word_surface = utils.font.render(camufleido, True, keyColor)
     word_width = word_surface.get_width()
     x = width - word_width - 32
     screen.blit(word_surface, (x, 200))

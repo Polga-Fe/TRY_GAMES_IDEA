@@ -1,7 +1,7 @@
 import pygame as pg
-import back.classesDefs as classesDefs
-import back.gameDefs as gameDefs
-import back.utilitys as utils
+import back.defClass as classes
+import back.defGame as dfGame
+import back.defVisual as utils
 import time as time
 from pygame import *
 
@@ -32,6 +32,8 @@ def game(screen):
     run = True
     time = pg.time.Clock()
 
+    pause_game = classes.PauseGame()
+
     while run:
         for evento in pg.event.get():
             if evento.type == pg.QUIT:
@@ -41,8 +43,7 @@ def game(screen):
             elif evento.type == pg.KEYDOWN:
                 # PAUSE
                 if evento.key == pg.K_SPACE:
-                    pause = not pause
-                    #if pause:
+                    pause_game.toggle_pause()
 
                     print(f'pause: {pause}')
                 # LEITURA DE LETRAS
@@ -66,23 +67,31 @@ def game(screen):
             current_frame = (current_frame + 1) % len(utils.frames)
 
         #DEFINIR PAUSE NO PAUSE
-        if pause:
-            utils.draw_text(screen, "PAUSE", utils.font, utils.white, 160, 250)
-            screen.blit(utils.stop_frame, (x_pos, y_pos))  # Use the pause frame
+        if pause_game.paused:
+            pause_action = pause_game.draw_pause_menu(screen)
+            screen.blit(utils.stop_frame, (x_pos, y_pos))
+            if pause_action == 'menu':
+                run = False
+                return 'menu'
+            elif pause_action == 'options':
+                return 'options'
+            elif pause_action == 'return':
+                pause_game.toggle_pause()  # Sai do estado de pausa
         else:
             x_pos += speed
             if x_pos > utils.width:  # Reset to the left side if it goes off the right edge
                 x_pos = -utils.frames[0].get_width()
             screen.blit(utils.frames[current_frame], (x_pos, y_pos))
 
-        # DEFINIÇÕES JOGO
-        gameDefs.word_game(screen, camufleido, font, utils.width)
-        choice_word, lose = gameDefs.random_word(words, choice_word, lose)
-        camufleido = gameDefs.camuflas(choice_word, camufleido, letters)
-        letters, chance = gameDefs.tentandus(letters, choice_word, letter, chance, speed)
-        
-        if chance == 0:
-            utils.botao(screen, 'REINICIAR', 260, 60, 200, 50, utils.purple, utils.white, utils.soft_green, acao='restart')
-            gameDefs.restart(camufleido, lose, chance, letters, letter, speed)
+            # DEFINIÇÕES JOGO
+            dfGame.word_game(screen, camufleido, font, utils.width)
+            choice_word, lose = dfGame.random_word(words, choice_word, lose)
+            camufleido = dfGame.camuflas(choice_word, camufleido, letters)
+            letters, chance = dfGame.tentandus(letters, choice_word, letter, chance, speed)
             
+            if chance == 0:
+                if utils.botao(screen, 'REINICIAR', 260, 60, 200, 50, utils.purple, utils.white, utils.soft_green, acao='restart'):
+                    dfGame.restart(camufleido, lose, chance, letters, letter, speed)
+                    return 'choice'
+        
         pg.display.flip()

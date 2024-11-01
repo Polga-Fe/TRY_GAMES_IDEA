@@ -2,7 +2,7 @@ import os
 import sys
 import pygame as pg
 
-import back.utilitys as utils
+import back.defVisual as utils
 
 import pages.menu as menu
 from pages.menu import menu
@@ -24,6 +24,7 @@ screen = utils.screen
 
 def main():
 
+    configuracoes = utils.carregar_configuracoes()
     cena_atual = 'menu'
 
    # Dicionário que mapeia cenas para funções correspondentes
@@ -37,6 +38,10 @@ def main():
     while True:
         print(f'Executando cena: {cena_atual}')
 
+        configuracoes = utils.carregar_configuracoes()
+        keyColor = configuracoes["keyColor"]
+        volume = configuracoes["volume"]
+
         if cena_atual == 'sair':
             pg.quit()
             sys.exit()
@@ -44,6 +49,7 @@ def main():
         # Verifica se a cena atual está no dicionário
         if cena_atual in cenas:
             cena_atual = cenas[cena_atual](screen)
+            configuracoes = ['keyColor', 'volume']
         else:
             print(f"Cena inválida: {cena_atual}")
             break

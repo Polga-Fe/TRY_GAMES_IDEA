@@ -1,5 +1,5 @@
 import pygame as pg
-import back.utilitys as utils 
+import back.defVisual as utils 
 
 def level(screen):
 
@@ -16,10 +16,13 @@ def level(screen):
             'FACIL': 'start',
             'MEDIO': 'start',
             'DIFICIL': 'start'
-        }
+            }
 
         for i, (texto, acao) in enumerate(acao.items()):
             if utils.botao(screen, texto, 300, 200 + i*100, 200, 50, utils.purple, utils.white, utils.soft_blue, acao):
                 return acao
-        
+            
+            elif utils.botao(screen, 'return', 450, 150, 200, 50, utils.white, utils.black, utils.purple):
+                return 'menu'
+            
         pg.display.flip()
