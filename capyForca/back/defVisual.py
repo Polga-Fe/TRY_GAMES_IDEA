@@ -36,7 +36,7 @@ stop_frame = sprite_sheet_capy.get_image(6.1, 32, 32, 5, purple)
 
 # TEXTOS
 def draw_text(screen, text, fonte, cor, x, y):
-    img = fonte.render(text, True, white)
+    img = font.render(text, True, white)
     screen.blit(img, (x,y))
 
 def draw_restart(screen):
@@ -57,7 +57,7 @@ def botao(screen, texto, pos_x, pos_y, largura, altura, cor_botao, cor_texto, co
         
         # Detecta o clique inicial
         for evento in pg.event.get():
-            if evento.type == pg.MOUSEBUTTONDOWN and evento.button == 1:
+            if evento.type == pg.MOUSEBUTTONDOWN:
                 clique = True
     else:
         pg.draw.rect(screen, cor_botao, (pos_x, pos_y, largura, altura), border_radius=border_radius)
@@ -137,4 +137,4 @@ def carregar_configuracoes(arquivo='config.json'):
             return configuracoes
     except FileNotFoundError:
         # Se o arquivo não existir, retornar valores padrão
-        return {"volume": 1.0, "keyColor": white}
+        return {'volume': 1.0, 'keyColor': white, 'pontuacao': 0}

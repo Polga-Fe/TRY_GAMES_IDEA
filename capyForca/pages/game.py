@@ -20,7 +20,7 @@ def game(screen):
     pontuacao = 0
     chance = 5
 
-    words = ['capy', 'eleph']
+    words = ['capy', 'eleph', 'capincho', 'gato']
     choice_word = ''
     camufleido = ''
     letter = ''
@@ -30,6 +30,7 @@ def game(screen):
     lose = True
     pause = False
     run = True
+    complet_word = False
     time = pg.time.Clock()
 
     pause_game = classes.PauseGame()
@@ -94,4 +95,12 @@ def game(screen):
                     dfGame.restart(camufleido, lose, chance, letters, letter, speed)
                     return 'choice'
         
+            if '*' not in camufleido:
+                if not complet_word:
+                    utils.draw_text(screen, "PARABENS SEU NÓIA!", font, utils.white, (utils.width // 2) - 64, (utils.height // 2) - 64)
+                    if utils.botao(screen, 'NOVA', 500, 100, 200, 65, utils.white, utils.purple, utils.soft_green):
+                        word_completed = True
+                        pontuacao += 1
+                        return 'menu'
+
         pg.display.flip()

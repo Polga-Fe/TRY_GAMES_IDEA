@@ -49,7 +49,7 @@ def main():
         # Verifica se a cena atual está no dicionário
         if cena_atual in cenas:
             cena_atual = cenas[cena_atual](screen)
-            configuracoes = ['keyColor', 'volume']
+            configuracoes = ['keyColor', 'volume', 'pontuacao']
         else:
             print(f"Cena inválida: {cena_atual}")
             break
